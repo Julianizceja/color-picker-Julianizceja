@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.Switch
 
@@ -22,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var editTextGreen: EditText
     private lateinit var editTextBlue: EditText
     private lateinit var resetButton: Button
-    private lateinit var colorBox: View
+    private lateinit var imageColor: ImageView
 
     private var redIntensity = 0.0
     private var greenIntensity = 0.0
@@ -41,7 +42,10 @@ class MainActivity : AppCompatActivity() {
         switchBlue = findViewById(R.id.switchBlue)
         seekBarBlue = findViewById(R.id.seekBarBlue)
         editTextBlue = findViewById(R.id.editTextBlue)
-        colorBox = findViewById(R.id.colorBox)
+        imageColor = findViewById(R.id.imageColor)
+        //resetButton = findViewById(R.id.resetButton)
+
+
 
         updateColorBox()
 
@@ -149,6 +153,6 @@ class MainActivity : AppCompatActivity() {
             (greenIntensity * 255).toInt(),
             (blueIntensity * 255).toInt()
         )
-        colorBox.setBackgroundColor(color)
+        imageColor.setColorFilter(color)
     }
 }
