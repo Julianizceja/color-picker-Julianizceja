@@ -7,17 +7,46 @@
     android:background="@drawable/halloweenhori"
     tools:context=".MainActivity">
 
+
     <SeekBar
         android:id="@+id/seekBarGreen"
-        android:layout_width="270dp"
+        android:layout_width="0dp"
         android:layout_height="54dp"
         android:progressTint="#00F953"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.889"
+        app:layout_constraintHorizontal_bias="0.861"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.411" />
+        app:layout_constraintVertical_bias="0.378"
+        app:layout_constraintWidth_percent="0.34" />
+
+    <SeekBar
+        android:id="@+id/seekBarBlue"
+        android:layout_width="0dp"
+        android:layout_height="54dp"
+        android:progressTint="#3E50B1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.861"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.633"
+        app:layout_constraintWidth_percent="0.34" />
+
+    <SeekBar
+        android:id="@+id/seekBarRed"
+        android:layout_width="0dp"
+        android:layout_height="54dp"
+        android:backgroundTint="#80FE0000"
+        android:progressTint="#F90000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.861"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.126"
+        app:layout_constraintWidth_percent="0.34" />
 
     <EditText
         android:id="@+id/editTextRed"
@@ -29,12 +58,70 @@
         android:inputType="numberDecimal"
         android:textColor="#F90000"
         android:textColorHint="#F90000"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/seekBarRed"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/seekBarRed"
+        app:layout_constraintTop_toTopOf="@+id/seekBarRed"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Switch
+        android:id="@+id/switchRed"
+        android:layout_width="50dp"
+        android:layout_height="54dp"
+        android:layout_marginEnd="6dp"
+        android:thumbTint="#FF0000"
+        android:trackTint="#FF0000"
+        app:layout_constraintBottom_toBottomOf="@+id/seekBarRed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.542"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.095" />
+        app:layout_constraintTop_toTopOf="@+id/seekBarRed"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/editTextGreen"
+        android:layout_width="0dp"
+        android:layout_height="54dp"
+        android:ems="10"
+        android:hint="Green"
+        android:inputType="numberDecimal"
+        android:textColor="#00F953"
+        android:textColorHint="#00F953"
+        app:layout_constraintBottom_toBottomOf="@+id/seekBarGreen"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/seekBarGreen"
+        app:layout_constraintTop_toTopOf="@+id/seekBarGreen"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintWidth_percent="0.08"/>
+
+    <Switch
+        android:id="@+id/switchGreen"
+        android:layout_width="50dp"
+        android:layout_height="54dp"
+        android:thumbTint="#00FF55"
+        android:trackTint="#00FF55"
+        app:layout_constraintBottom_toBottomOf="@+id/seekBarGreen"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.538"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/seekBarGreen"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Switch
+        android:id="@+id/switchBlue"
+        android:layout_width="50dp"
+        android:layout_height="54dp"
+        android:thumbTint="#3F51B5"
+        android:trackTint="#3F51B5"
+        app:layout_constraintBottom_toBottomOf="@+id/seekBarBlue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.537"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/seekBarBlue"
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/editTextBlue"
@@ -44,125 +131,49 @@
         android:hint="Blue"
         android:inputType="numberDecimal"
         android:textColor="#3E50B1"
-
         android:textColorHint="#3E50B1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.997"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.663" />
-
-    <Switch
-        android:id="@+id/switchBlue"
-        android:layout_width="48dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="176dp"
-        android:thumbTint="#3F51B5"
-        android:trackTint="#3F51B5"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.353"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.663" />
-
-    <SeekBar
-        android:id="@+id/seekBarRed"
-        android:layout_width="270dp"
-        android:layout_height="54dp"
-        android:backgroundTint="#80FE0000"
-        android:progressTint="#F90000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.889"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.095" />
-
-    <Switch
-        android:id="@+id/switchRed"
-        android:layout_width="48dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="5dp"
-        android:thumbTint="#FF0000"
-        android:trackTint="#FF0000"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/seekBarBlue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/imageColor"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.095" />
-
-    <EditText
-        android:id="@+id/editTextGreen"
-        android:layout_width="54dp"
-        android:layout_height="54dp"
-        android:ems="10"
-        android:hint="Green"
-        android:inputType="numberDecimal"
-        android:textColor="#00F953"
-        android:textColorHint="#00F953"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.997"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.411" />
-
-    <Switch
-        android:id="@+id/switchGreen"
-        android:layout_width="48dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="5dp"
-        android:thumbTint="#00FF55"
-        android:trackTint="#00FF55"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.526"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.411" />
-
-    <SeekBar
-        android:id="@+id/seekBarBlue"
-        android:layout_width="270dp"
-        android:layout_height="54dp"
-        android:progressTint="#3E50B1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.882"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.663" />
+        app:layout_constraintStart_toEndOf="@+id/seekBarBlue"
+        app:layout_constraintTop_toTopOf="@+id/seekBarBlue"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
         android:id="@+id/imageColor"
-        android:layout_width="339dp"
-        android:layout_height="384dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.04"
+        app:layout_constraintEnd_toStartOf="@+id/switchGreen"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.481"
+        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintWidth_percent="0.5"
+        app:layout_constraintHeight_percent="0.99"
         app:srcCompat="@drawable/pumpking" />
 
     <Button
         android:id="@+id/resetButton"
-        android:layout_width="143dp"
-        android:layout_height="99dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:background="@drawable/ghosty"
         android:text="RESET"
+        android:maxLines="1"
+        app:autoSizeMaxTextSize="15sp"
+        app:autoSizeMinTextSize="2sp"
+        app:autoSizeTextType="uniform"
         android:textColor="#000000"
         app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="H,1:1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.673"
+        app:layout_constraintHorizontal_bias="0.784"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/seekBarBlue"
-        app:layout_constraintVertical_bias="0.538"
+        app:layout_constraintVertical_bias="0.647"
+        app:layout_constraintWidth_percent="0.178"
         app:strokeColor="#F4F4F4" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
