@@ -4,13 +4,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.Switch
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
+
+
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,6 +29,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var editTextBlue: EditText
     private lateinit var resetButton: Button
     private lateinit var imageColor: ImageView
+    private lateinit var colorViewModel: ColorViewModel
+    private lateinit var myAppRepository: MyAppRepository
+
 
     private var redIntensity = 0.0
     private var greenIntensity = 0.0
@@ -49,6 +56,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        myAppRepository = MyAppRepository.getInstance(this)
+        //colorViewModel = ViewModelProvider(this)[ColorViewModel::class.java]
+        //redIntensity = (colorViewModel.redIntensityLiveData.value ?: 0.0).toDouble()
+        //greenIntensity = (colorViewModel.greenIntensityLiveData.value ?: 0.0).toDouble()
+        //blueIntensity = (colorViewModel.blueIntensityLiveData.value ?: 0.0).toDouble()
+
         switchRed = findViewById(R.id.switchRed)
         seekBarRed = findViewById(R.id.seekBarRed)
         editTextRed = findViewById(R.id.editTextRed)
@@ -71,6 +84,28 @@ class MainActivity : AppCompatActivity() {
         editTextBlue.isEnabled = false
 
         updatePumpkinColor()
+
+        lifecycleScope.launch {
+            myAppRepository.redIntensity.collect {
+                redIntensity = it.toDouble()
+                updatePumpkinColor()
+            }
+        }
+
+        lifecycleScope.launch {
+            myAppRepository.greenIntensity.collect {
+                greenIntensity = it.toDouble()
+                updatePumpkinColor()
+            }
+        }
+
+        lifecycleScope.launch {
+            myAppRepository.blueIntensity.collect {
+                blueIntensity = it.toDouble()
+                updatePumpkinColor()
+            }
+        }
+
 
         switchRed.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
@@ -208,6 +243,7 @@ class MainActivity : AppCompatActivity() {
             editTextBlue.setText("0.0")
             updatePumpkinColor()
         }
+
     }
 
     private fun updatePumpkinColor() {
@@ -235,5 +271,12 @@ class MainActivity : AppCompatActivity() {
         } else {
             0.0f
         }
+    }
+
+    override fun onPause() {
+        lifecycleScope.launch {
+            myAppRepository.saveIntensities(redIntensity, greenIntensity, blueIntensity)
+        }
+        super.onPause()
     }
 }
