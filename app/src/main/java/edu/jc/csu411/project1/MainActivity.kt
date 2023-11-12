@@ -57,10 +57,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         myAppRepository = MyAppRepository.getInstance(this)
-        //colorViewModel = ViewModelProvider(this)[ColorViewModel::class.java]
-        //redIntensity = (colorViewModel.redIntensityLiveData.value ?: 0.0).toDouble()
-        //greenIntensity = (colorViewModel.greenIntensityLiveData.value ?: 0.0).toDouble()
-        //blueIntensity = (colorViewModel.blueIntensityLiveData.value ?: 0.0).toDouble()
 
         switchRed = findViewById(R.id.switchRed)
         seekBarRed = findViewById(R.id.seekBarRed)
