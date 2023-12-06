@@ -9,7 +9,9 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.Switch
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -29,8 +31,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var editTextBlue: EditText
     private lateinit var resetButton: Button
     private lateinit var imageColor: ImageView
-    private lateinit var colorViewModel: ColorViewModel
     private lateinit var myAppRepository: MyAppRepository
+    private lateinit var colorStateViewModel: ColorStateViewModel
 
 
     private var redIntensity = 0.0
@@ -42,13 +44,44 @@ class MainActivity : AppCompatActivity() {
         outState.putDouble("redIntensity", redIntensity)
         outState.putDouble("greenIntensity", greenIntensity)
         outState.putDouble("blueIntensity", blueIntensity)
+
+        outState.putBoolean("switchRedChecked", switchRed.isChecked)
+        outState.putBoolean("seekBarRedEnabled", seekBarRed.isEnabled)
+        outState.putInt("seekBarRedProgress", seekBarRed.progress)
+        outState.putString("editTextRedText", editTextRed.text.toString())
+
+        outState.putBoolean("switchGreenChecked", switchGreen.isChecked)
+        outState.putBoolean("seekBarGreenEnabled", seekBarGreen.isEnabled)
+        outState.putInt("seekBarGreenProgress", seekBarGreen.progress)
+        outState.putString("editTextGreenText", editTextGreen.text.toString())
+
+        outState.putBoolean("switchBlueChecked", switchBlue.isChecked)
+        outState.putBoolean("seekBarBlueEnabled", seekBarBlue.isEnabled)
+        outState.putInt("seekBarBlueProgress", seekBarBlue.progress)
+        outState.putString("editTextBlueText", editTextBlue.text.toString())
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        redIntensity = savedInstanceState.getDouble("redIntensity", 0.0)
-        greenIntensity = savedInstanceState.getDouble("greenIntensity", 0.0)
-        blueIntensity = savedInstanceState.getDouble("blueIntensity", 0.0)
+        switchRed.isChecked = savedInstanceState.getBoolean("switchRedChecked", true)
+        seekBarRed.isEnabled = savedInstanceState.getBoolean("seekBarRedEnabled", true)
+        seekBarRed.progress = savedInstanceState.getInt("seekBarRedProgress", 0)
+        editTextRed.setText(savedInstanceState.getString("editTextRedText", "Red"))
+
+        switchGreen.isChecked = savedInstanceState.getBoolean("switchGreenChecked", true)
+        seekBarGreen.isEnabled = savedInstanceState.getBoolean("seekBarGreenEnabled", true)
+        seekBarGreen.progress = savedInstanceState.getInt("seekBarGreenProgress", 0)
+        editTextGreen.setText(savedInstanceState.getString("editTextGreenText", "Green"))
+
+        switchBlue.isChecked = savedInstanceState.getBoolean("switchBlueChecked", true)
+        seekBarBlue.isEnabled = savedInstanceState.getBoolean("seekBarBlueEnabled", true)
+        seekBarBlue.progress = savedInstanceState.getInt("seekBarBlueProgress", 0)
+        editTextBlue.setText(savedInstanceState.getString("editTextBlueText", "Blue"))
+
+        redIntensity = savedInstanceState.getDouble("redIntensity", redIntensity)
+        greenIntensity = savedInstanceState.getDouble("greenIntensity", greenIntensity)
+        blueIntensity = savedInstanceState.getDouble("blueIntensity", blueIntensity)
+
         updatePumpkinColor()
     }
 
@@ -68,6 +101,11 @@ class MainActivity : AppCompatActivity() {
         seekBarBlue = findViewById(R.id.seekBarBlue)
         editTextBlue = findViewById(R.id.editTextBlue)
         imageColor = findViewById(R.id.imageColor)
+        val defaultSeekBarValue = 0
+        val defaultEditTextRed = "Red"
+        val defaultEditTextGreen = "Green"
+        val defaultEditTextBlue = "Blue"
+
 
         switchRed.isChecked = false
         seekBarRed.isEnabled = false
@@ -107,12 +145,15 @@ class MainActivity : AppCompatActivity() {
             if (isChecked) {
                 seekBarRed.isEnabled = true
                 editTextRed.isEnabled = true
+                if (redIntensity != 0.0) {
+                    seekBarRed.progress = (redIntensity * seekBarRed.max).toInt()
+                    editTextRed.setText(redIntensity.toString())
+                }
             } else {
-                redIntensity = 0.0
-                seekBarRed.progress = 0
+                redIntensity = seekBarRed.progress.toDouble() / 100
                 seekBarRed.isEnabled = false
                 editTextRed.isEnabled = false
-                editTextRed.setText("0.0")
+                editTextRed.setText("Red")
             }
             updatePumpkinColor()
         }
@@ -148,12 +189,15 @@ class MainActivity : AppCompatActivity() {
             if (isChecked) {
                 seekBarGreen.isEnabled = true
                 editTextGreen.isEnabled = true
+                if (greenIntensity != 0.0) {
+                    seekBarGreen.progress = (greenIntensity * seekBarGreen.max).toInt()
+                    editTextGreen.setText(greenIntensity.toString())
+                }
             } else {
-                greenIntensity = 0.0
+                greenIntensity = seekBarGreen.progress.toDouble() / 100
                 seekBarGreen.isEnabled = false
-                seekBarGreen.progress = 0
                 editTextGreen.isEnabled = false
-                editTextGreen.setText("0.0")
+                editTextGreen.setText("Green")
             }
             updatePumpkinColor()
         }
@@ -189,12 +233,15 @@ class MainActivity : AppCompatActivity() {
             if (isChecked) {
                 seekBarBlue.isEnabled = true
                 editTextBlue.isEnabled = true
+                if (blueIntensity != 0.0) {
+                    seekBarBlue.progress = (blueIntensity * seekBarBlue.max).toInt()
+                    editTextBlue.setText(blueIntensity.toString())
+                }
             } else {
-                blueIntensity = 0.0
+                blueIntensity = seekBarBlue.progress.toDouble() / 100
                 seekBarBlue.isEnabled = false
-                seekBarBlue.progress = 0
                 editTextBlue.isEnabled = false
-                editTextBlue.setText("0.0")
+                editTextBlue.setText("Blue")
             }
             updatePumpkinColor()
         }
@@ -228,18 +275,20 @@ class MainActivity : AppCompatActivity() {
 
         val resetButton = findViewById<Button>(R.id.resetButton)
         resetButton.setOnClickListener {
+            seekBarRed.progress = defaultSeekBarValue
+            seekBarGreen.progress = defaultSeekBarValue
+            seekBarBlue.progress = defaultSeekBarValue
             switchRed.isChecked = false
-            seekBarRed.progress = 0
-            editTextRed.setText("0.0")
             switchGreen.isChecked = false
-            seekBarGreen.progress = 0
-            editTextGreen.setText("0.0")
             switchBlue.isChecked = false
-            seekBarBlue.progress = 0
-            editTextBlue.setText("0.0")
+            editTextRed.setText(defaultEditTextRed)
+            editTextGreen.setText(defaultEditTextGreen)
+            editTextBlue.setText(defaultEditTextBlue)
+            redIntensity = 0.0
+            greenIntensity = 0.0
+            blueIntensity = 0.0
             updatePumpkinColor()
         }
-
     }
 
     private fun updatePumpkinColor() {
@@ -270,9 +319,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onPause() {
+        super.onPause()
         lifecycleScope.launch {
             myAppRepository.saveIntensities(redIntensity, greenIntensity, blueIntensity)
         }
-        super.onPause()
     }
+
 }
